@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutoriais</title>
+  <meta property="og:title" content="Tutoriais dos Scripts" />
+  <meta property="og:description" content="Veja como utilizar o seu script favorito!" />
+  <meta property="og:image" content="https://i.imgur.com/PBnK2Pb.png" />
+  <meta property="og:url" content="https://exemplo.com/tutoriais" />
+  <meta property="og:type" content="website" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <style>
+    img {
+      pointer-events: none;
+      -webkit-user-drag: none;
+      -moz-user-drag: none;
+      -ms-user-drag: none;
+    }
+    
+    :root {
+      --primary-color: #8A2BE2;
+      --primary-hover: #7B1FA2;
+      --dark-bg: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --text-secondary: #b3b3b3;
+      --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      --transition-default: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --notification-color: #4CAF50;
+      --notification-hover: #45a049;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    .navbar {
+      background: linear-gradient(135deg, #252525, #101010);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 12px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: var(--transition-default);
+    }
+
+    .nav-logo i {
+      margin-right: 8px;
+      color: var(--primary-color);
+    }
+
+    .nav-logo:hover {
+      transform: translateY(-2px);
+      color: var(--primary-color);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: var(--transition-default);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--text-color);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link.active {
+      color: var(--text-color);
+      background: rgba(138, 43, 226, 0.2);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-color);
+      font-family: sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 40px 20px;
+      text-align: center;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      padding-top: 80px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .header {
+      margin-bottom: 60px;
+      position: relative;
+    }
+    
+    .title-wrapper {
+      display: inline-flex;
+      position: relative;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      align-items: center;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin: 0;
+      background: linear-gradient(45deg, #8A2BE2, #BA68C8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
+      position: relative;
+      height: 60px;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+    }
+    
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+    
+    .category-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .category-button {
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: var(--transition-default);
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .category-button.active {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .category-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .tutorials-container {
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .tutorial {
+      background-color: var(--card-bg);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition-default);
+      transform: translateY(0);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .tutorial:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+    
+    .tutorial h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      position: relative;
+      display: inline-block;
+    }
+    
+    .video-wrapper {
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      margin: 15px 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+    
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 10px;
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: -350px;
+      width: 320px;
+      background: linear-gradient(135deg, #252525, #101010);
+      border-left: 4px solid var(--notification-color);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      z-index: 1000;
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .notification.show {
+      right: 20px;
+      opacity: 1;
+    }
+    
+    .notification.hide {
+      opacity: 0;
+      transform: translateX(100px) scale(0.8);
+    }
+    
+    .notification-icon {
+      font-size: 1.8rem;
+      color: var(--notification-color);
+      margin-bottom: 10px;
+    }
+    
+    .notification-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: var(--notification-color);
+      font-size: 1.2rem;
+    }
+    
+    .notification-message {
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    
+    .notification-button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+    
+    .notification-button {
+      background: var(--notification-color);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition-default);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .notification-button:hover {
+      background: var(--notification-hover);
+    }
+    
+    .notification-button i {
+      margin-right: 5px;
+    }
+    
+    .dismiss-button {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid #333;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition-default);
+      font-weight: 500;
+    }
+    
+    .dismiss-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .scroll-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 99;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: var(--transition-default);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .scroll-to-top.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .scroll-to-top:hover {
+      background: var(--primary-hover);
+    }
+    
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 42px;
+      background-color: var(--primary-color);
+      margin-left: 5px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+      position: relative;
+      top: 5px;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    .category-section {
+      display: none;
+    }
+    
+    .category-section.active {
+      display: block;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding-top: 70px;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(135deg, #252525, #101010);
+        flex-direction: column;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        z-index: 99;
+      }
+
+      .nav-links.show {
+        max-height: 300px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-link {
+        width: 100%;
+        padding: 15px 20px;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      .notification {
+        width: 280px;
+        padding: 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 60px 10px 20px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .header {
+        margin-bottom: 40px;
+      }
+      .tutorial {
+        padding: 15px;
+      }
+      .tutorial h2 {
+        font-size: 1.5rem;
+      }
+      .subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 30px;
+      }
+      .scroll-to-top {
+        bottom: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+      }
+      .category-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><i class="fas fa-code"></i>ScriptHub</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="tutoriais.html" class="nav-link active">Tutoriais</a>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <header class="header">
+      <div class="title-wrapper" data-aos="fade-down">
+        <h1 id="title"></h1><span class="typing-cursor"></span>
+      </div>
+      <p class="subtitle" data-aos="fade-up" data-aos-delay="300">Aprenda a como utilizar todos os nossos scripts com nossos tutoriais em videos e interativos</p>
+    </header>
+
+    <div class="category-buttons">
+      <button class="category-button active" data-category="computador">Computador</button>
+      <button class="category-button" data-category="celular">Celular</button>
+    </div>
+
+    <div class="category-section active" id="computador">
+      <div class="tutorials-container">
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="100">
+          <h2 style="color: var(--primary-color);">Khan Academy</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/1079905839?h=eaf20cbe4f" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+        
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="200">
+          <h2 style="color: var(--primary-color);">Alura</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/1079905886?h=fee9b97e9c" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+        
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="300">
+          <h2 style="color: var(--primary-color);">TarefaSP</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/1079905800?h=24344b0188" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+        
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="400">
+          <h2 style="color: var(--primary-color);">Redação Paulista</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/1079905752?h=7b458d4a66" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="300">
+          <h2 style="color: var(--primary-color);">SPeak</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/1079905858?h=ac4a4ca95c" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="300">
+          <h2 style="color: var(--primary-color);">TarefaSP ( Script )</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/1082615834?h=d96df86bcb" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-section" id="celular">
+      <div class="tutorials-container">
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="100">
+          <h2 style="color: var(--primary-color);">SPeak</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+        
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="200">
+          <h2 style="color: var(--primary-color);">Expansão Noturno</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+        
+        <div class="tutorial" data-aos="fade-up" data-aos-delay="300">
+          <h2 style="color: var(--primary-color);">Matific</h2>
+          <div class="video-wrapper">
+            <iframe src="https://player.vimeo.com/video/" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notification" id="donation-notification">
+    <div class="notification-icon">
+      <i class="fas fa-gift"></i>
+    </div>
+    <div class="notification-title">Ajude o Projeto!</div>
+    <div class="notification-message">Suas doações são essenciais para mantermos este projeto. Contribua para continuarmos ajudando estudantes em todo o estado de São Paulo.</div>
+    <div class="notification-button-container">
+      <button class="notification-button" onclick="goToDonation()"><i class="fas fa-heart"></i> Doar Agora</button>
+      <button class="dismiss-button" onclick="dismissNotification()">Mais tarde</button>
+    </div>
+  </div>
+
+  <div class="scroll-to-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+      });
+    });
+    
+    const titleText = "CMSP Hacks - Tutoriais";
+    const titleElement = document.getElementById("title");
+    let charIndex = 0;
+    
+    function typeTitle() {
+      if (charIndex < titleText.length) {
+        titleElement.textContent = titleText.substring(0, charIndex + 1);
+        charIndex++;
+        setTimeout(typeTitle, 100);
+      } else {
+        setTimeout(() => {
+          document.querySelector('.typing-cursor').style.display = 'none';
+        }, 1500);
+      }
+    }
+    
+    window.onload = function() {
+      setTimeout(typeTitle, 1500);
+      setTimeout(showNotification, 3000);
+      initScrollToTop();
+      initCategoryButtons();
+    }
+    
+    function showNotification() {
+      const notification = document.getElementById('donation-notification');
+      notification.classList.add('show');
+    }
+    
+    function dismissNotification() {
+      const notification = document.getElementById('donation-notification');
+      notification.classList.add('hide');
+      notification.classList.remove('show');
+      setTimeout(() => {
+        notification.classList.remove('hide');
+        notification.style.right = '-350px';
+      }, 500);
+    }
+    
+    function goToDonation() {
+      window.location.href = "https://pixgg.com/DarkMode";
+    }
+    
+    function initScrollToTop() {
+      const scrollTopButton = document.getElementById('scrollTop');
+      
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          scrollTopButton.classList.add('show');
+        } else {
+          scrollTopButton.classList.remove('show');
+        }
+      });
+      
+      scrollTopButton.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+    
+    function initCategoryButtons() {
+      const buttons = document.querySelectorAll('.category-button');
+      
+      buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          const category = this.getAttribute('data-category');
+          
+          buttons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          document.querySelectorAll('.category-section').forEach(section => {
+            section.classList.remove('active');
+          });
+          
+          document.getElementById(category).classList.add('active');
+        });
+      });
+    }
+    
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    mobileMenuBtn.addEventListener('click', function() {
+      navLinks.classList.toggle('show');
+    });
+  </script>
+</body>
+</html>
