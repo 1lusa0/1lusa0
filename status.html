@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Status dos Scripts - Monitore em tempo real o status operacional de todos os nossos scripts e ferramentas." />
+    <meta name="keywords" content="status scripts, monitoramento online, ferramentas disponíveis, scripts ativos, status em tempo real, plataformas compatíveis">
+    <title>Status</title>
+    <meta property="og:title" content="Status dos Scripts" />
+    <meta property="og:description" content="Monitore em tempo real o status operacional de todos os nossos scripts e ferramentas." />
+    <meta property="og:image" content="https://i.imgur.com/PBnK2Pb.png" />
+    <meta property="og:url" content="https://exemplo.com/status" />
+    <meta property="og:type" content="website" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #252525, #101010);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 12px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .nav-logo i {
+            margin-right: 8px;
+            color: #7289da;
+        }
+
+        .nav-logo:hover {
+            transform: translateY(-2px);
+            color: #7289da;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            color: #ffffff;
+            background: rgba(114, 137, 218, 0.2);
+        }
+
+        .nav-link.active::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #7289da;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #252525, #101010);
+                flex-direction: column;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                z-index: 99;
+            }
+
+            .nav-links.show {
+                max-height: 300px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            }
+
+            .nav-link {
+                width: 100%;
+                padding: 15px 20px;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(30, 30, 30, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30, 30, 30, 0.5) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+        }
+
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 80px;
+            animation: fadeIn 1s ease-out;
+            padding: 0 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .typing-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            min-height: 60px;
+            position: relative;
+            display: inline-block;
+            line-height: 1.2;
+            vertical-align: middle;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 42px;
+            background-color: #fff;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+            position: relative;
+            top: 5px;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: #cccccc;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+            margin-top: 30px;
+        }
+
+        .status-card {
+            background: linear-gradient(135deg, #1e1e1e, #121212);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.05),
+                    transparent);
+            transition: 0.5s;
+        }
+
+        .status-card:hover::before {
+            left: 100%;
+        }
+
+        .script-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .status-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .status-label {
+            font-size: 0.9rem;
+            min-width: 120px;
+            color: #aaa;
+        }
+
+        .status-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .online {
+            background-color: #4cd137;
+            box-shadow: 0 0 10px #4cd137;
+        }
+
+        .offline {
+            background-color: #e84118;
+            box-shadow: 0 0 10px #e84118;
+        }
+
+        .maintenance {
+            background-color: #fbc531;
+            box-shadow: 0 0 10px #fbc531;
+        }
+
+        .platform-badges {
+            display: flex;
+            gap: 8px;
+        }
+
+        .platform-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .platform-badge.desktop {
+            background: rgba(66, 103, 178, 0.2);
+            color: #42a5f5;
+        }
+
+        .platform-badge.mobile {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: -350px;
+            width: 320px;
+            background: linear-gradient(135deg, #252525, #101010);
+            border-left: 4px solid #7289da;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notification.show {
+            right: 20px;
+            opacity: 1;
+            animation: wiggle 0.8s ease-in-out;
+        }
+
+        .notification.hide {
+            opacity: 0;
+            transform: translateX(100px) scale(0.8);
+        }
+
+        @keyframes wiggle {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            15% {
+                transform: translateX(-5px) rotate(-2deg);
+            }
+            30% {
+                transform: translateX(5px) rotate(2deg);
+            }
+            45% {
+                transform: translateX(-3px) rotate(-1deg);
+            }
+            60% {
+                transform: translateX(3px) rotate(1deg);
+            }
+            75% {
+                transform: translateX(-1px) rotate(-0.5deg);
+            }
+            90% {
+                transform: translateX(1px) rotate(0.5deg);
+            }
+        }
+
+        .notification-icon {
+            font-size: 1.8rem;
+            color: #7289da;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #7289da;
+            font-size: 1.2rem;
+        }
+
+        .notification-message {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #cccccc;
+        }
+
+        .notification-button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+
+        .notification-button {
+            background: #7289da;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-button:hover {
+            background: #5f73bc;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification-button i {
+            margin-right: 5px;
+        }
+
+        .dismiss-button {
+            background: transparent;
+            color: #cccccc;
+            border: 1px solid #333;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .dismiss-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .status-update-notification {
+            border-left: 4px solid #d48c38;
+        }
+
+        .status-update-notification .notification-icon {
+            color: #d48c38;
+        }
+
+        .status-update-notification .notification-title {
+            color: #d48c38;
+        }
+
+        .status-update-notification .notification-button {
+            background: #d48c38;
+        }
+
+        .status-update-notification .notification-button:hover {
+            background: #d48c38;
+        }
+
+        .footer {
+            width: 100%;
+            margin-top: auto;
+            background: linear-gradient(to bottom, transparent, #080808);
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 20px;
+        }
+
+        .last-update {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        @keyframes colorPulse {
+            0%, 100% {
+                color: #d48c38;
+            }
+            50% {
+                color: #d48c38;
+            }
+        }
+
+        .pulse-text {
+            animation: colorPulse 2s infinite;
+        }
+
+        #loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .loader {
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 5px solid #7289da;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: rgba(232, 65, 24, 0.1);
+            border-left: 4px solid #e84118;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 30px auto;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .error-message h3 {
+            color: #e84118;
+            margin-bottom: 10px;
+        }
+
+        .refresh-button {
+            background: #e84118;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .refresh-button:hover {
+            background: #c23616;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .typing-title {
+                font-size: 1.8rem;
+                min-height: 45px;
+            }
+
+            .typing-cursor {
+                height: 32px;
+            }
+
+            .description {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notification {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .typing-title {
+                font-size: 1.5rem;
+                min-height: 38px;
+            }
+
+            .typing-cursor {
+                height: 28px;
+                top: 3px;
+            }
+
+            .notification {
+                width: 250px;
+            }
+
+            .status-card {
+                padding: 15px;
+            }
+
+            .script-name {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><i class="fas fa-code"></i>ScriptHub</a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="videos.html" class="nav-link">Tutoriais</a>
+                <a href="#" class="nav-link active">Status</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="typing-title" id="title"></h1>
+        <span class="typing-cursor"></span>
+
+        <div class="description">
+            <p>
+                Monitore em tempo real o status operacional de todos os nossos scripts e ferramentas.
+                Acompanhe disponibilidade, plataformas compatíveis e informações de atualização.
+            </p>
+        </div>
+
+        <div id="loading">
+            <div class="loader"></div>
+            <p>Carregando dados dos scripts...</p>
+        </div>
+
+        <div class="status-grid" id="status-grid" data-aos="fade-up">
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="copyright">
+            © 2025 Status dos Scripts - Todos os direitos reservados
+        </div>
+        <div class="last-update">
+            Última atualização: <span id="last-update-time">Carregando...</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+            return false;
+        });
+
+        const jsonUrl = 'https://raw.githubusercontent.com/DarkModde/darkmodde.github.io/refs/heads/main/CMSP-Hacks/status.json';
+        let scriptsData = [];
+        
+        async function loadScriptsData() {
+            try {
+                const loadingElement = document.getElementById('loading');
+                loadingElement.style.display = 'flex';
+                
+                const response = await fetch(jsonUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`Erro ao carregar dados: ${response.status} ${response.statusText}`);
+                }
+                
+                scriptsData = await response.json();
+                
+                loadingElement.style.display = 'none';
+                
+                renderStatusCards();
+                updateLastUpdateTime();
+                setupCardHoverEffects();
+                simulateRealtimeUpdates();
+                
+                return true;
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                showErrorMessage(error.message);
+                return false;
+            }
+        }
+        
+        function showErrorMessage(message) {
+            const loadingElement = document.getElementById('loading');
+            loadingElement.style.display = 'none';
+            
+            const statusGrid = document.getElementById('status-grid');
+            statusGrid.innerHTML = `
+                <div class="error-message">
+                    <h3>Erro ao carregar dados</h3>
+                    <p>${message}</p>
+                    <p>Verifique a conexão com a internet ou tente novamente mais tarde.</p>
+                    <button class="refresh-button" onclick="window.location.reload()">
+                        <i class="fas fa-sync-alt"></i> Tentar novamente
+                    </button>
+                </div>
+            `;
+        }
+
+        function typeTitle() {
+            const titleText = "CMSP Hacks - Status";
+            const titleElement = document.getElementById("title");
+            let charIndex = 0;
+            let isDeleting = false;
+            const typingDelay = 150;
+            const deletingDelay = 50;
+            const newTextDelay = 4000;
+
+            function type() {
+                if (!isDeleting && charIndex < titleText.length) {
+                    titleElement.textContent = titleText.substring(0, charIndex + 1);
+                    charIndex++;
+                    setTimeout(type, typingDelay);
+                } else if (isDeleting && charIndex > 0) {
+                    titleElement.textContent = titleText.substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(type, deletingDelay);
+                } else if (charIndex === titleText.length) {
+                    isDeleting = true;
+                    setTimeout(type, newTextDelay);
+                } else if (charIndex === 0) {
+                    isDeleting = false;
+                    setTimeout(type, typingDelay);
+                }
+            }
+
+            setTimeout(type, 1000);
+        }
+
+        function showStatusNotification() {
+            const notification = document.getElementById("status-notification");
+            notification.classList.add("show");
+
+            setTimeout(() => {
+                notification.classList.add("hide");
+                notification.classList.remove("show");
+
+                setTimeout(() => {
+                    notification.classList.remove("hide");
+                    notification.style.right = "-350px";
+                    notification.style.opacity = "0";
+                }, 500);
+            }, 8000);
+        }
+
+        function dismissNotification() {
+            const notification = document.getElementById("status-notification");
+            notification.classList.add("hide");
+            notification.classList.remove("show");
+
+            setTimeout(() => {
+                notification.classList.remove("hide");
+                notification.style.right = "-350px";
+                notification.style.opacity = "0";
+            }, 500);
+        }
+
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            const formattedDate = `${day}/${month}/${year} às ${hours}:${minutes}`;
+            document.getElementById('last-update-time').textContent = formattedDate;
+        }
+        
+        function renderStatusCards() {
+            if (!scriptsData || scriptsData.length === 0) return;
+            
+            const statusGrid = document.getElementById('status-grid');
+            statusGrid.innerHTML = '';
+            
+            scriptsData.forEach(script => {
+                const card = document.createElement('div');
+                card.className = 'status-card';
+                card.setAttribute('data-aos', 'fade-up');
+                card.setAttribute('data-status', script.status);
+
+                let statusLabel = '';
+                let statusColor = '';
+                
+                switch(script.status) {
+                    case 'online':
+                        statusLabel = 'Online';
+                        statusColor = 'online';
+                        break;
+                    case 'offline':
+                        statusLabel = 'Offline';
+                        statusColor = 'offline';
+                        break;
+                    case 'maintenance':
+                        statusLabel = 'Manutenção';
+                        statusColor = 'maintenance';
+                        break;
+                }
+                
+                let platformsHTML = '';
+                script.platforms.forEach(platform => {
+                    let platformLabel = '';
+                    
+                    switch(platform) {
+                        case 'desktop':
+                            platformLabel = 'Computador';
+                            break;
+                        case 'mobile':
+                            platformLabel = 'Mobile';
+                            break;
+                    }
+                    
+                    platformsHTML += `<span class="platform-badge ${platform}">${platformLabel}</span>`;
+                });
+                
+                card.innerHTML = `
+                    <h3 class="script-name">${script.name}</h3>
+                    <div class="status-info">
+                        <div class="status-row">
+                            <span class="status-label">Status:</span>
+                            <span class="status-value">
+                                <span class="status-indicator ${statusColor}"></span>
+                                ${statusLabel}
+                            </span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">Plataformas:</span>
+                            <div class="platform-badges">
+                                ${platformsHTML}
+                            </div>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">Atualizado:</span>
+                            <span class="status-value">${script.lastUpdated}</span>
+                        </div>
+                    </div>
+                `;
+
+                statusGrid.appendChild(card);
+            });
+            
+            setupCardHoverEffects();
+        }
+        
+        function setupCardHoverEffects() {
+            const statusCards = document.querySelectorAll('.status-card');
+            
+            statusCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-8px)';
+                    card.style.boxShadow = '0 12px 20px rgba(0, 0, 0, 0.4)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                });
+            });
+        }
+        
+        function simulateRealtimeUpdates() {
+            if (!scriptsData || scriptsData.length === 0) return;
+            
+            setInterval(async () => {
+                try {
+                    const response = await fetch(jsonUrl);
+                    if (response.ok) {
+                        const newData = await response.json();
+                        
+                        for (let i = 0; i < newData.length; i++) {
+                            if (i >= scriptsData.length) break;
+                            
+                            const oldScript = scriptsData[i];
+                            const newScript = newData[i];
+                            
+                            if (oldScript.status !== newScript.status) {
+                                showStatusChangeNotification(newScript, newScript.status);
+                            }
+                        }
+                        
+                        scriptsData = newData;
+                        
+                        renderStatusCards();
+                        updateLastUpdateTime();
+                    }
+                } catch (error) {
+                    console.error('Erro ao verificar atualizações:', error);
+                }
+            }, 300000);
+            
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    const randomScriptIndex = Math.floor(Math.random() * scriptsData.length);
+                    const randomScript = scriptsData[randomScriptIndex];
+                    const currentStatus = randomScript.status;
+                    
+                    const statuses = ['online', 'offline', 'maintenance'];
+                    const filteredStatuses = statuses.filter(status => status !== currentStatus);
+                    const newStatus = filteredStatuses[Math.floor(Math.random() * filteredStatuses.length)];
+                    
+                    randomScript.status = newStatus;
+                    
+                    const now = new Date();
+                    const day = String(now.getDate()).padStart(2, '0');
+                    const month = String(now.getMonth() + 1).padStart(2, '0');
+                    const year = now.getFullYear();
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    
+                    randomScript.lastUpdated = `${day}/${month}/${year} às ${hours}:${minutes}`;
+                    
+                    renderStatusCards();
+                    updateLastUpdateTime();
+                    
+                    showStatusChangeNotification(randomScript, newStatus);
+                }
+            }, Math.random() * 20000 + 30000);
+        }
+        
+        function showStatusChangeNotification(script, status) {
+            const notification = document.getElementById('status-notification');
+            const notificationMessage = document.getElementById('notification-message');
+            
+            let statusText = '';
+            let notificationClass = '';
+            
+            switch(status) {
+                case 'online':
+                    statusText = '<span class="pulse-text">online</span>';
+                    notificationClass = 'status-update-notification';
+                    break;
+                case 'offline':
+                    statusText = '<span style="color: #e84118;">offline</span>';
+                    notification.style.borderLeftColor = '#e84118';
+                    notificationClass = '';
+                    break;
+                case 'maintenance':
+                    statusText = '<span style="color: #fbc531;">em manutenção</span>';
+                    notificationClass = '';
+                    break;
+            }
+            
+            notificationMessage.innerHTML = `O script <strong>${script.name}</strong> agora está ${statusText}!`;
+            
+            notification.classList.remove('status-update-notification');
+            
+            if (notificationClass) {
+                notification.classList.add(notificationClass);
+            }
+            
+            const iconElement = notification.querySelector('.notification-icon i');
+            if (iconElement) {
+                iconElement.className = '';
+                
+                switch(status) {
+                    case 'online':
+                        iconElement.className = 'fas fa-check-circle';
+                        break;
+                    case 'offline':
+                        iconElement.className = 'fas fa-times-circle';
+                        break;
+                    case 'maintenance':
+                        iconElement.className = 'fas fa-tools';
+                        break;
+                }
+            }
+            
+            const titleElement = notification.querySelector('.notification-title');
+            if (titleElement) {
+                switch(status) {
+                    case 'online':
+                        titleElement.textContent = 'Script Online';
+                        break;
+                    case 'offline':
+                        titleElement.textContent = 'Script Offline';
+                        break;
+                    case 'maintenance':
+                        titleElement.textContent = 'Em Manutenção';
+                        break;
+                }
+            }
+            
+            notification.style.right = "-350px";
+            notification.style.opacity = "0";
+            notification.classList.remove("hide");
+            
+            setTimeout(() => {
+                notification.classList.add("show");
+                
+                setTimeout(() => {
+                    notification.classList.add("hide");
+                    notification.classList.remove("show");
+                    
+                    setTimeout(() => {
+                        notification.classList.remove("hide");
+                        notification.style.right = "-350px";
+                        notification.style.opacity = "0";
+                    }, 500);
+                }, 5000);
+            }, 500);
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            typeTitle();
+            
+            AOS.init({
+                duration: 800,
+                easing: "ease",
+                once: false,
+                mirror: false,
+            });
+            
+            loadScriptsData().then(success => {
+                if (success) {
+                    setTimeout(() => {
+                        showStatusNotification();
+                    }, 2000);
+                }
+            });
+            
+            document.addEventListener('aos:in', function() {
+                setupCardHoverEffects();
+            });
+            
+            // Funcionalidade do menu mobile
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('show');
+                
+                // Alterna o ícone do botão
+                const icon = mobileMenuBtn.querySelector('i');
+                if (navLinks.classList.contains('show')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Fecha o menu ao clicar em qualquer link
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navLinks.classList.contains('show')) {
+                        navLinks.classList.remove('show');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
