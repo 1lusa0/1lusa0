@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Tarefas SP",
+    "status": "online",
+    "lastUpdated": "28/04/2025",
+    "platforms": ["desktop", "mobile"],
+    "type": "website"
+  },
+  {
+    "name": "Khan Academy",
+    "status": "online",
+    "lastUpdated": "25/04/2025",
+    "platforms": ["desktop", "mobile"],
+    "type": "bookmark"
+  },
+  {
+    "name": "SPeak",
+    "status": "online",
+    "lastUpdated": "22/04/2025",
+    "platforms": ["desktop", "mobile"],
+    "type": "bookmark"
+  },
+  {
+    "name": "Matific",
+    "status": "online",
+    "lastUpdated": "22/04/2025",
+    "platforms": ["desktop", "mobile"],
+    "type": "bookmark"
+  },
+  {
+    "name": "Expansão Noturno",
+    "status": "maintenance",
+    "lastUpdated": "26/04/2025",
+    "platforms": ["desktop", "mobile"],
+    "type": "bookmark"
+  },
+  {
+    "name": "Redação Paulista",
+    "status": "online",
+    "lastUpdated": "26/04/2025",
+    "platforms": ["desktop", "mobile"],
+    "type": "bookmark"
+  },
+  {
+    "name": "Alura",
+    "status": "offline",
+    "lastUpdated": "15/01/2025",
+    "platforms": ["desktop"],
+    "type": "bookmark"
+  },
+  {
+    "name": "LeiaMe ( Arvore )",
+    "status": "online",
+    "lastUpdated": "30/04/2025",
+    "platforms": ["desktop", "mobile"],
+    "type": "website"
+  }
+]
