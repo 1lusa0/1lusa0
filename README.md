@@ -33,13 +33,13 @@
 <p align="center">
     <a href="#"><img width="7%" alt="Website" title="Website" src="https://i.imgur.com/ePxQiXY.png"/></a>
   &nbsp;
-    <a href="https://pixgg.com/DarkMode"><img width="7%" alt="Doações" title="Doações" src="https://i.imgur.com/RJ6BcN9.png"/></a>
+    <a href="https://pixgg.com/1lusa0e"><img width="7%" alt="Doações" title="Doações" src="https://i.imgur.com/RJ6BcN9.png"/></a>
   &nbsp;
-    <a href="https://discord.gg/platformdestroyer"><img width="7%" alt="Discord ( PD )" title="Discord ( PD )" src="https://i.imgur.com/AOX1nxB.png"/></a>
+    <a href="https://discord.gg/CXTJAGCbRw"><img width="7%" alt="Discord ( PD )" title="Discord ( PD )" src="https://i.imgur.com/AOX1nxB.png"/></a>
 </p>
 
 ---
 
-<p align="center"><a href="#"><img src="https://komarev.com/ghpvc/?username=NewFuturoHacks&style=for-the-badge&label=Views:&color=gray"/></a></p>
+<p align="center"><a href="#"><img src="https://komarev.com/ghpvc/?username=1lusa0&style=for-the-badge&label=Views:&color=gray"/></a></p>
 
 <a href="#"><img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=150&color=7851A9&section=footer"/></a>
