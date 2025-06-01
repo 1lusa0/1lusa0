@@ -33,7 +33,7 @@
 <p align="center">
     <a href="#"><img width="7%" alt="Website" title="Website" src="https://i.imgur.com/ePxQiXY.png"/></a>
   &nbsp;
-    <a href="https://pixgg.com/1lusa0e"><img width="7%" alt="Doações" title="Doações" src="https://i.imgur.com/RJ6BcN9.png"/></a>
+    <a href="https://pixgg.com/1lusa0"><img width="7%" alt="Doações" title="Doações" src="https://i.imgur.com/RJ6BcN9.png"/></a>
   &nbsp;
     <a href="https://discord.gg/CXTJAGCbRw"><img width="7%" alt="Discord ( PD )" title="Discord ( PD )" src="https://i.imgur.com/AOX1nxB.png"/></a>
 </p>
