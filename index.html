@@ -1564,7 +1564,7 @@
             doacoesList.innerHTML = '<div class="donation-loading"><div class="spinner"></div><span>Carregando doações...</span></div>';
 
             try {
-                const response = await fetch('https://api.pixgg.com/?apikey=bed2de58-aac5-4410-9a76-815356fdfaf6');
+                const response = await fetch('https://dark-api-eta.vercel.app/api/donations');
                 
                 if (!response.ok) {
                     throw new Error('Erro ao carregar doações');
